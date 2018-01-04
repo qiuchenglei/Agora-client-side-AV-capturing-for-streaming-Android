@@ -13,4 +13,6 @@
     <color name="transparent_75_white">#ACFFFFFF</color>
 
     <color name="dark_gray">#FF55585A</color>
+
+    <color name="alpha_black_percent_60">#7f000000</color>
 </resources>

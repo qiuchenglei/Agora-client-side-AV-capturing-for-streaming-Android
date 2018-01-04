@@ -13,7 +13,7 @@ bool VMUtil::initialize(JNIEnv *jni_env)
     class_jni_host = jni_env->FindClass("io/agora/ex/AudioVideoPreProcessing");
     CHECK_POINTER(class_jni_host, FALSE, "can't execute FindClass!");
 
-    GET_METHOD_ID(mOnMixedAudioData, "VM_onMixedAudioData", "([B)V");
+    GET_METHOD_ID(mOnMixedAudioData, "VM_onMixedAudioData", "([BII)V");
     GET_METHOD_ID(mOnVideoData, "VM_onVideoData", "([BII)V");
 
     // get JVM object
@@ -45,7 +45,7 @@ bool VMUtil::removeJNIHostObject(JNIEnv *env)
     return TRUE;
 }
 
-bool VMUtil::on_mixed_audio_data(int16_t const* data, int32_t length)
+bool VMUtil::on_mixed_audio_data(int16_t const* data, int32_t length, int32_t samples, int32_t samplerate)
 {
     CHECK_POINTER(mJNIHost, FALSE, "mJNIHost is NULL!");
     AttachThreadScoped ats(mpVM);
@@ -57,7 +57,7 @@ bool VMUtil::on_mixed_audio_data(int16_t const* data, int32_t length)
     memcpy(temp, data, length);
     jni_env->ReleasePrimitiveArrayCritical(retArray, temp, 0);
 
-    jni_env->CallVoidMethod(mJNIHost, mOnMixedAudioData, retArray);
+    jni_env->CallVoidMethod(mJNIHost, mOnMixedAudioData, retArray, samples, samplerate);
 
     jni_env->DeleteLocalRef(retArray);
 

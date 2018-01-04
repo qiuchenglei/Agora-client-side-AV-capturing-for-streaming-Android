@@ -26,6 +26,21 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/audio_sample_info_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/room_name"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:visibility="gone"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            android:background="@drawable/round_room_info_bg"/>
+
         <io.agora.propeller.ui.AGLinearLayout
             android:id="@+id/bottom_container"
             android:layout_width="match_parent"

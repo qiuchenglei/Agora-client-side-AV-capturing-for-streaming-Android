@@ -51,7 +51,8 @@ public:
 
     virtual bool onMixedAudioFrame(AudioFrame& audioFrame) override
     {
-        VMUtil::instance().on_mixed_audio_data((int16*) audioFrame.buffer, audioFrame.samples * 2);
+        VMUtil::instance().on_mixed_audio_data((int16*) audioFrame.buffer, audioFrame.samples * 2,
+        audioFrame.samples, audioFrame.samplesPerSec);
         return true;
     }
 
