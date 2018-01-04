@@ -19,6 +19,8 @@
 
     <string name="msg_no_network_connection">No network connection, please check the network settings</string>
 
+    <string name="audio_sample_info">sample rate: %1$s, samples per call: %2$s</string>
+
     <string-array name="audio_sample_rate_values">
         <item>16000</item>
         <item>32000</item>

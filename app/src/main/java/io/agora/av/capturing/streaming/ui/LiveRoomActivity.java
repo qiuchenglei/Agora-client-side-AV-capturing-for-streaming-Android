@@ -27,6 +27,7 @@ import io.agora.av.capturing.streaming.StubStreamingClient;
 import io.agora.av.capturing.streaming.model.AGEventHandler;
 import io.agora.av.capturing.streaming.model.ConstantApp;
 import io.agora.ex.AudioVideoPreProcessing;
+import io.agora.ex.IAudioSampleInfoListener;
 import io.agora.propeller.Constant;
 import io.agora.propeller.ui.GridVideoViewContainer;
 import io.agora.propeller.ui.VideoViewEventListener;
@@ -46,6 +47,8 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler {
     private volatile boolean mAudioMuted = false;
 
     private volatile int mAudioRouting = Constants.AUDIO_ROUTE_DEFAULT; // Default
+
+    private TextView mAudioInfoTv;
 
     private AudioVideoPreProcessing mPreProcessing = new AudioVideoPreProcessing();
 
@@ -120,6 +123,8 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler {
         TextView textRoomName = (TextView) findViewById(R.id.room_name);
         textRoomName.setText(roomName);
 
+        mAudioInfoTv = (TextView) findViewById(R.id.audio_sample_info_tv);
+
         optional();
 
         LinearLayout bottomContainer = (LinearLayout) findViewById(R.id.bottom_container);
@@ -127,8 +132,23 @@ public class LiveRoomActivity extends BaseActivity implements AGEventHandler {
         fmp.bottomMargin = virtualKeyHeight() + 16;
 
         mPreProcessing.setStreamingClient(new StubStreamingClient()); // TODO Implement your own streaming client
+        mPreProcessing.setAudioInfoListener(mAudioSampleInfoListener);
         mPreProcessing.registerPreProcessing();
     }
+
+    private IAudioSampleInfoListener mAudioSampleInfoListener = new IAudioSampleInfoListener() {
+        @Override
+        public void onAuidoSampleInfo(final int samples, final int samplerate) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAudioInfoTv.setVisibility(View.VISIBLE);
+                    mAudioInfoTv.setText(getString(R.string.audio_sample_info,
+                            samplerate+"", samples+""));
+                }
+            });
+        }
+    };
 
     private void notifyMessageChanged(String msg) {
         log.debug("msg " + msg);

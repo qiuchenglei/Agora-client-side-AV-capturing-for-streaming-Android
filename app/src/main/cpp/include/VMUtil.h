@@ -62,7 +62,7 @@ public:
 
     bool removeJNIHostObject(JNIEnv *env);
 
-    bool on_mixed_audio_data(int16_t const*, int32_t length);
+    bool on_mixed_audio_data(int16_t const*, int32_t length, int32_t samples, int32_t samplerate);
 
     bool on_video_data(uint8_t const*, uint8_t const*, uint8_t const*, int32_t width, int32_t height);
 

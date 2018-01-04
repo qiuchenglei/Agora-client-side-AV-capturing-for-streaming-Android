@@ -25,8 +25,15 @@ public class AudioVideoPreProcessing {
     }
 
     @SuppressWarnings("native call")
-    private void VM_onMixedAudioData(final byte[] data) {
+    private void VM_onMixedAudioData(final byte[] data, int samples, int samplerate) {
         mStreamingClient.sendPCMData(data);
+        mSampleCount++;
+        if (mSampleCount > CALLBACK_SAMPLE_COUNT) {
+            mSampleCount = 0;
+            if (mListener != null) {
+                mListener.onAuidoSampleInfo(samples, samplerate);
+            }
+        }
     }
 
     @SuppressWarnings("native call")
@@ -38,5 +45,12 @@ public class AudioVideoPreProcessing {
         mStreamingClient = client;
     }
 
+    public void setAudioInfoListener(IAudioSampleInfoListener listener) {
+        mListener = listener;
+    }
+
     private StreamingClient mStreamingClient;
+    private IAudioSampleInfoListener mListener;
+    private static final int CALLBACK_SAMPLE_COUNT = 200;
+    private int mSampleCount = CALLBACK_SAMPLE_COUNT;
 }
