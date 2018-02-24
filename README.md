@@ -1,48 +1,44 @@
 # Agora client side AV capturing for streaming Android
 
+*其他语言版本： [简体中文](README.zh.md)*
 
-*Read this in other languages: [English](README.en.md)*
+The Agora client side AV capturing for streaming Android Sample App is an open-source demo that shows how to build a video chat application via Agora Video SDK, and get raw data of audio and video streaming to push to RTMP server.
 
-这个开源示例项目演示了如何从 Agora 视频 SDK 获取音视频裸数据，并进行 RTMP 推流。
+With this sample app, you can:
 
-在这个示例项目中包含了以下功能：
+- Join / leave channel
+- Get raw data of audio and video streaming from Agora Video SDK
+- Merge raw data to push to RTMP server
 
-- 加入通话和离开通话；
-- 从 Agora 视频 SDK 获取音视频裸数据；
-- 处理音视频裸数据以进行 RTMP 推流；
+A tutorial demo for Agora Video SDK can be found here: [Agora-Android-Tutorial-1to1](https://github.com/AgoraIO/Agora-Android-Tutorial-1to1)
 
-你可以在这里查看 Agora 视频 SDK 的入门示例项目：[Agora-Android-Tutorial-1to1](https://github.com/AgoraIO/Agora-Android-Tutorial-1to1)
+You can find demo for iOS here: [Agora-client-side-AV-capturing-for-streaming-iOS](https://github.com/AgoraIO/Agora-client-side-AV-capturing-for-streaming-iOS)
 
-你也可以查看 iOS 平台的示例项目： [Agora-client-side-AV-capturing-for-streaming-iOS](https://github.com/AgoraIO/Agora-client-side-AV-capturing-for-streaming-iOS)
-
-## 运行示例程序
-**首先**在 [Agora.io 注册](https://dashboard.agora.io/cn/signup/) 注册账号，并创建自己的测试项目，获取到 AppID。将 AppID 填写进 "app/src/main/res/values/strings_config.xml"
+## Running the App
+**First**, create a developer account at [Agora.io](https://dashboard.agora.io/signin/), and obtain an App ID. Update "app/src/main/res/values/strings_config.xml" with your App ID.
 
 ```
 <string name="private_app_id"><#YOUR APP ID#></string>
 ```
 
-**然后**是集成 Agora 视频 SDK ，集成方式有以下两种：
+**Next**, integrate the Agora Video SDK and there are two ways to integrate:
 
-- 首选集成方式：
+- The recommended way to integrate:
 
-第一步: 在项目对应的模块的 "app/build.gradle" 文件的依赖属性中加入通过 JCenter 自动集成 Agora 视频 SDK 的地址：
-
+First, add the address which can integrate the Agora Video SDK automatically through JCenter in the property of the dependence of the "app/build.gradle":
 ```
 compile 'io.agora.rtc:full-sdk:2.0.0'
 ```
+(This sample program has added this address and do not need to add again. Adding the link address is the most important step if you want to integrate the Agora Video SDK in your own application.)
 
-( 该示例程序已添加此链接地址，无需再添加，如果要在自己的应用中集成 Agora 视频 SDK，添加链接地址是最重要的一步。）
+Then, download the **Agora Video SDK** from [Agora.io SDK](https://www.agora.io/en/blog/download/). Unzip the downloaded SDK package and copy **IAgoraMediaEngine.h**/**IAgoraRtcEngine.h** under **libs/include** to **app/src/main/cpp/include/agora**.
 
-第二步: 在 [Agora.io SDK](https://www.agora.io/cn/download/) 下载 **视频通话 + 直播 SDK**，解压后将其中的 **libs/include** 文件夹下的 **IAgoraMediaEngine.h**/**IAgoraRtcEngine.h** 复制到本项目的 **app/src/main/cpp/include/agora** 下。
+- Alternative way to integrate:
 
+First, download the **Agora Video SDK** from [Agora.io SDK](https://www.agora.io/en/download/). Unzip the downloaded SDK package and copy ***.jar** under **libs** to **app/libs**, **arm64-v8a**/**x86**/**armeabi-v7a** under **libs** to **app/src/main/libs**,**IAgoraMediaEngine.h**/**IAgoraRtcEngine.h** under **libs/include** to **app/src/main/cpp/include/agora**.
 
-- 次选集成方式：
+Then, add the following code in the property of the android of the "app/build.gradle":
 
-第一步: 在 [Agora.io SDK](https://www.agora.io/cn/download/) 下载 **视频通话 + 直播 SDK**，解压后将其中的 **libs** 文件夹下的 ***.jar** 复制到本项目的 **app/libs** 下，其中的 **libs** 文件夹下的 **arm64-v8a**/**x86**/**armeabi-v7a** 复制到本项目的 **app/src/main/libs** 下，其中的 **libs/include** 文件夹下的 **IAgoraMediaEngine.h**/**IAgoraRtcEngine.h** 复制到本项目的 **app/src/main/cpp/include/agora** 下。
-
-
-第二步: 在本项目的 "app/build.gradle" 文件的 android 属性中添加如下代码：
 ```
  sourceSets {
         main {
@@ -50,29 +46,26 @@ compile 'io.agora.rtc:full-sdk:2.0.0'
         }
     }
 ```
-第三步: 在本项目的 "app/build.gradle" 文件依赖属性中添加如下依赖关系：
+At last, add the fllowing code in the property of the dependence of the "app/build.gradle":
 
 ```
 compile fileTree(dir: 'libs', include: ['*.jar'])
 ```
 
-**最后**用 Android Studio 打开该项目，连上设备，编译并运行。
+**Finally**, open project with Android Studio, connect your Android device, build and run.
 
-也可以使用 `Gradle` 直接编译运行。
+Or use `Gradle` to build and run.
 
-## 运行环境
-- Android Studio 2.0 +
-- 真实 Android 设备 (Nexus 5X 或者其它设备)
-- 部分模拟器会存在功能缺失或者性能问题，所以推荐使用真机
+## Developer Environment Requirements
+- Android Studio 2.0 or above
+- Real devices (Nexus 5X or other devices)
+- Some simulators are function missing or have performance issue, so real device is the best choice
 
-## 联系我们
+## Connect Us
 
-- 完整的 API 文档见 [文档中心](https://docs.agora.io/cn/)
-- 如果在集成中遇到问题, 你可以到 [开发者社区](https://dev.agora.io/cn/) 提问
-- 如果有售前咨询问题, 可以拨打 400 632 6626，或加入官方Q群 12742516 提问
-- 如果需要售后技术支持, 你可以在 [Agora Dashboard](https://dashboard.agora.io) 提交工单
-- 如果发现了示例代码的 bug, 欢迎提交 [issue](https://github.com/AgoraIO/Agora-client-side-AV-capturing-for-streaming-Android/issues)
+- You can find full API document at [Document Center](https://docs.agora.io/en/)
+- You can file bugs about this demo at [issue](https://github.com/AgoraIO/Agora-client-side-AV-capturing-for-streaming-Android/issues)
 
-## 代码许可
+## License
 
 The MIT License (MIT).
